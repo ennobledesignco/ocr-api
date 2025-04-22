@@ -3,7 +3,7 @@ import cv2
 import pytesseract
 import tempfile
 import os
-import traceback  # ✅ for logging full error stack
+import traceback  # For detailed logging
 
 app = Flask(__name__)
 
@@ -42,7 +42,7 @@ def ocr():
 
     except Exception as e:
         print("🔥 OCR ERROR:")
-        traceback.print_exc()  # ✅ this will show the full traceback in Render logs
+        traceback.print_exc()  # Log full traceback to console/logs
         return jsonify({"error": f"Server error: {str(e)}"}), 500
 
     finally:
@@ -51,3 +51,7 @@ def ocr():
             os.remove(img_path)
         if processed_path and os.path.exists(processed_path):
             os.remove(processed_path)
+
+# Required for Render to bind correctly
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
